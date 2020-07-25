@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: M20 Sharpened
+  m_EditorClassIdentifier: Assembly-CSharp::Gun
+  name: M20 Sharpened
+  Id: 1
+  rarity: 3
+  stackable: 0
+  groundItem: {fileID: 2534112912531671852, guid: c7ea605dc6602224eb988f6e0d63e0d5,
+    type: 3}
+  frontView: {fileID: 21300000, guid: 471628784d2131f429a369e57890e859, type: 3}
+  topView: {fileID: 21300000, guid: 03b3f639d4f0fca459229a8d0461204c, type: 3}
+  chestRecieveableValue: 1
+  maxStack: 1
+  ammoRequired: 0
+  baseDamage: 15
+  reloadTime: 1
+  fireRate: 0.15
+  animationName: Fire
