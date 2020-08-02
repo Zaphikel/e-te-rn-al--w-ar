@@ -15,11 +15,9 @@ public class Door : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Open");
         if (collision.CompareTag("Player"))
         {
             parentHouse.ToggleRoof(false);
-            Debug.Log("Open");
             PlayerInteractor.staticInstance.currentDoor = this;
         }
     }

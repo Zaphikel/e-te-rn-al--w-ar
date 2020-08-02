@@ -13,7 +13,7 @@ public class PlayerLocomotion : MonoBehaviour
     [HideInInspector] public Vector2 moveDirection;
     [HideInInspector] public Vector2 lookDirection;
     [HideInInspector] public Vector2 mousePos;
-    private float angle;
+    public float angle;
 
     private void Start()
     {

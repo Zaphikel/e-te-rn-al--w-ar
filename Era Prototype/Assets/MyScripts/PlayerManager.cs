@@ -5,11 +5,16 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     public PlayerStats currentStatsClass;
+    public PlayerLocomotion playerLocomotion;
     public InventoryObject inventory;
     public int health;
     public int MaxHealth { get => currentStatsClass.health; }
     public int mana;
     public int MaxMana { get => currentStatsClass.mana; }
+
+    public SpriteRenderer weaponHand;
+    public Transform bulletPoint;
+    public Gun currentGun;
 
     [Header("Player States")]
     public bool hasGun;
@@ -37,6 +42,37 @@ public class PlayerManager : MonoBehaviour
         currentStatsClass = new PlayerStats();
         inventory = new InventoryObject();
         canMove = true;
+        bulletPoint = weaponHand.GetComponentInChildren<Transform>();
+        playerLocomotion = GetComponent<PlayerLocomotion>();
+        currentGun = null;
+        canShoot = true;
+    }
+
+    private void Update()
+    {
+        Debug.Log(inventory);
+        Debug.Log(inventory.Container);
+        Debug.Log(inventory.Container.Items[0]);
+        Debug.Log(inventory.Container.Items[0].item);
+
+        if (inventory.Container.Items[0].item is Gun)
+        {
+            Gun gun = (Gun)inventory.Container.Items[0].item;
+            currentGun = gun;
+            weaponHand.sprite = gun.topView;
+            hasGun = true;
+        }
+        else
+        {
+            weaponHand.sprite = null;
+            currentGun = null;
+            hasGun = false;
+        }
+
+        if (Input.GetMouseButton(0) & hasGun)
+        {
+            Shoot();
+        }
     }
 
     private void TakeDamage(int damage)
@@ -68,5 +104,66 @@ public class PlayerManager : MonoBehaviour
             TakeDamage(10);
         }
     }
+
+    private void Shoot()
+    {
+        if (CanShoot())
+        {
+            SpawnBullet();
+            DecreaseAmmo(1);
+        }
+    }
+
+    private void DecreaseAmmo(int amount)
+    {
+        switch (currentGun.ammoRequired)
+        {
+            case AmmoType.Light:
+                lightAmmo -= amount;
+                break;
+            case AmmoType.Medium:
+                mediumAmmo -= amount;
+                break;
+            case AmmoType.Heavy:
+                heavyAmmo -= amount;
+                break;
+            case AmmoType.Shell:
+                shellAmmo -= amount;
+                break;
+            case AmmoType.Special:
+                specialAmmo -= amount;
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void SpawnBullet()
+    {
+        Projectile bullet = Instantiate(currentGun.bulletFired, bulletPoint.position, Quaternion.AngleAxis(playerLocomotion.angle, Vector3.forward)).GetComponent<Projectile>();
+        //Vector2 rot = bullet.transform.eulerAngles;
+        //rot.y = 0;
+        //bullet.transform.eulerAngles = rot;
+        //bullet.direction = Vector3.up;
+        //bullet.direction.z = 0;
+    }
+
+    private bool CanShoot()
+    {
+        if (canShoot)
+        {
+            StartCoroutine(ResetCanShoot());
+            return true;
+        }
+        return false;
+    }
+
+    IEnumerator ResetCanShoot()
+    {
+        canShoot = false;
+        yield return new WaitForSeconds(currentGun.fireRate);
+        canShoot = true;
+    }
+
 
 }

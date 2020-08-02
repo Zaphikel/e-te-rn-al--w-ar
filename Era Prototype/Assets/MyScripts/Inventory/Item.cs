@@ -23,6 +23,7 @@ public class Gun : Item
     public float reloadTime;
     public float fireRate;
     public string animationName = "Fire";
+    public GameObject bulletFired;
 }
 
 [CreateAssetMenu(fileName = "Consumable", menuName = "Prototype/Inventory System/Consumable")]
